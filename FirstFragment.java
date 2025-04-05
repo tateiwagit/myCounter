@@ -1,9 +1,6 @@
 package com.example.mycounter;
 
-import android.content.Context;
-import android.database.ContentObserver;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,7 +22,7 @@ public class FirstFragment extends Fragment {
     private TextView counterText;
     private int counter = 0;
     private VolumeContentObserver volumeObserver;
-    private Handler androidHandler = new Handler();
+    private final Handler androidHandler = new Handler();
 
 
     @Override
@@ -72,6 +69,22 @@ public class FirstFragment extends Fragment {
                 volumeObserver
         );
     }
+
+    /**
+     * MainActivity から呼び出され、カウンター値を更新し TextView に反映するメソッド。
+     * @param change 加算または減算する値 (音量の変化量)
+     */
+    public void updateCounter(int change) {
+        // カウンター値を更新
+        counter += change;
+
+        // binding オブジェクトが null でないことを確認（Fragment の View が破棄されていないか）
+        if (binding != null) {
+            // TextView のテキストを更新後のカウンター値で更新
+            binding.counterText.setText(String.valueOf(counter));
+        }
+    }
+
 
     @Override
     public void onDestroyView() {
