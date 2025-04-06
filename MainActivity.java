@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void updateCounterBasedOnVolumeChange(int volumeChange) {
+    public void updateCounterBasedOnVolumeChange() {
         // 1. NavHostFragment を取得
         //    activity_main.xml で定義した NavHostFragment の ID (nav_host_fragment_content_main) を指定
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             // 3. 現在のフラグメントが FirstFragment のインスタンスか確認
             if (currentFragment instanceof FirstFragment) {
                 // 4. FirstFragment であれば、その updateCounter メソッドを呼び出して変化量を渡す
-                ((FirstFragment) currentFragment).updateCounter(volumeChange);
+                ((FirstFragment) currentFragment).updateCounter();
             } else {
                 // (任意) FirstFragment 以外が表示されている場合のログなど
                 Log.d("MainActivity", "Current fragment is not FirstFragment.");

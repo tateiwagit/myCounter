@@ -72,11 +72,10 @@ public class FirstFragment extends Fragment {
 
     /**
      * MainActivity から呼び出され、カウンター値を更新し TextView に反映するメソッド。
-     * @param change 加算または減算する値 (音量の変化量)
      */
-    public void updateCounter(int change) {
+    public void updateCounter() {
         // カウンター値を更新
-        counter += change;
+        counter += 1;
 
         // binding オブジェクトが null でないことを確認（Fragment の View が破棄されていないか）
         if (binding != null) {

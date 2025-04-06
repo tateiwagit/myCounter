@@ -35,7 +35,8 @@ public class VolumeContentObserver extends ContentObserver {
             Log.d(TAG, "Volume changed from " + previousVolume + " to " + currentVolume);
             // Implement your counter logic here
             // ここで音量が変化したことだけを通知するよう変更してコミット
-            ((MainActivity) context).updateCounterBasedOnVolumeChange(currentVolume - previousVolume);
+            ((MainActivity) context).updateCounterBasedOnVolumeChange();
+            // ここで音量をもとに戻したい
             previousVolume = currentVolume;
         }
     }
