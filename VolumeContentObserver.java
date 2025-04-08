@@ -10,8 +10,8 @@ import android.util.Log;
 public class VolumeContentObserver extends ContentObserver {
 
     private static final String TAG = "VolumeObserver";
-    private Context context;
-    private AudioManager audioManager;
+    private final Context context;
+    private final AudioManager audioManager;
     private int previousVolume;
 
     public VolumeContentObserver(Context context, Handler handler) {
@@ -37,7 +37,8 @@ public class VolumeContentObserver extends ContentObserver {
             // ここで音量が変化したことだけを通知するよう変更してコミット
             ((MainActivity) context).updateCounterBasedOnVolumeChange();
             // ここで音量をもとに戻したい
-            previousVolume = currentVolume;
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolume, AudioManager.FLAG_VIBRATE);
+            //previousVolume = currentVolume;
         }
     }
 }
