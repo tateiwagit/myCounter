@@ -2,7 +2,6 @@ package com.example.mycounter;
 
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mycounter.databinding.FragmentFirstBinding;
@@ -22,8 +20,6 @@ public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private TextView counterText;
-    private VolumeContentObserver volumeObserver;
-    private final Handler androidHandler = new Handler();
 
 
     @Override
@@ -55,20 +51,8 @@ public class FirstFragment extends Fragment {
         Button resetButton = view.findViewById(R.id.reset_button);
         resetButton.setOnClickListener(v -> viewModel.resetCounter());
 
-        viewModel.getCounter().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                counterText.setText(String.valueOf(integer));
-            }
-        });
+        viewModel.getCounter().observe(getViewLifecycleOwner(), integer -> counterText.setText(String.valueOf(integer)));
 
-    }
-
-    /**
-     * MainActivity から呼び出され、カウンター値を更新し TextView に反映するメソッド。
-     */
-    public void updateCounter() {
-        viewModel.incrementCounter();
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.KeyEvent;
-import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,14 +23,15 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
     private MyCounterViewModel viewModel;
+    private long lastVolumeButtonPressTime = 0;
+    private static final int DOUBLE_PRESS_INTERVAL = 300; // Adjust as needed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        com.example.mycounter.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         viewModel = new ViewModelProvider(this).get(MyCounterViewModel.class);
@@ -71,7 +71,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            viewModel.incrementCounter();
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastVolumeButtonPressTime < DOUBLE_PRESS_INTERVAL) {
+                viewModel.incrementCounter();
+                lastVolumeButtonPressTime = 0; // Reset
+            } else {
+                lastVolumeButtonPressTime = currentTime;
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
